@@ -3,7 +3,11 @@ name = "adversarial-training-demo"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "Cylix Lee", email = "cylix.lee@outlook.com" }]
-dependencies = ["torch>=2.6.0", "torchvision>=0.21.0"]
+dependencies = [
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+    "torchattacks @ git+https://github.com/Harry24k/adversarial-attacks-pytorch.git",
+]
 requires-python = "==3.13.*"
 readme = "README.md"
 license = { text = "Apache-2.0" }
