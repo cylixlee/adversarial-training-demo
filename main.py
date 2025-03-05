@@ -2,12 +2,12 @@ import torch
 from tqdm import tqdm
 
 from src.datasets import MNISTDatasetProvider
-from src.models import MNISTTargetedMLP
+from src.models import MNISTMultiLayerPerceptron
 
 
 def main() -> None:
     dataset_provider = MNISTDatasetProvider()
-    model = MNISTTargetedMLP()
+    model = MNISTMultiLayerPerceptron()
 
     model.eval()
     correct = 0

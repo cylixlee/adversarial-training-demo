@@ -6,7 +6,7 @@ import torch
 from torch import nn
 from transformers import AutoModel
 
-__all__ = ["TargetModel", "MNISTTargetedMLP"]
+__all__ = ["TargetModel", "MNISTMultiLayerPerceptron"]
 
 MODEL_HOME = pathlib.Path(__file__).parent.parent / "pretrained-models"
 
@@ -23,7 +23,7 @@ class TargetModel(ABC, nn.Module):
         pass
 
 
-class MNISTTargetedMLP(TargetModel):
+class MNISTMultiLayerPerceptron(TargetModel):
     _model: AutoModel
 
     def __init__(self):
