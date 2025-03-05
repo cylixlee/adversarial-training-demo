@@ -65,8 +65,8 @@ class MNISTDatasetProvider(DatasetProvider):
     def __init__(self):
         train = MNIST(DATA_ROOT, train=True, download=True, transform=self.transform)
         test = MNIST(DATA_ROOT, train=False, download=True, transform=self.transform)
-        self._train_set = DataLoader(train, batch_size=8)
-        self._test_set = DataLoader(test, batch_size=8, shuffle=True)
+        self._train_set = DataLoader(train, batch_size=32)
+        self._test_set = DataLoader(test, batch_size=32, shuffle=True)
 
     @property
     @override

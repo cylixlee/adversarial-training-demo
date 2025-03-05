@@ -1,6 +1,6 @@
 # Dataset root
 data/
-cache/
+pretrained-models/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
