@@ -1,0 +1,26 @@
+[project]
+name = "adversarial-training-demo"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [{ name = "Cylix Lee", email = "cylix.lee@outlook.com" }]
+dependencies = ["torch>=2.6.0", "torchvision>=0.21.0"]
+requires-python = "==3.13.*"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.resolution]
+respect-source-order = true
+
+# By default, PyTorch CPU is installed.
+#
+# If you want to run this project with GPU (CUDA or ROCm), please change this source url according to the offcial
+# website https://pytorch.org/.
+[[tool.pdm.source]]
+name = "PyTorch"
+url = "https://download.pytorch.org/whl/cpu"
+include_packages = ["torch*"]
+exclude_packages = ["*"]
