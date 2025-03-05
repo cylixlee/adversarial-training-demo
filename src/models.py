@@ -1,22 +1,32 @@
-from torch import nn
+from abc import ABC, abstractmethod
+from typing import override
+
 import torch
+from torch import nn
+from transformers import AutoModel
 
-__all__ = ["MNISTMultiLayerPerceptron"]
+__all__ = ["TargetModel", "MNISTTargetedMLP"]
 
 
-class MNISTMultiLayerPerceptron(nn.Module):
+class TargetModel(ABC, nn.Module):
     """
-    A Multi-layer perceptron specifically designed for MNIST.
+    A model accepting a tensor and output another.
 
-    Note that native MNIST tensors are of shape `[1, 28, 28]` (C x H x W).
+    For this project, the target models must be of image-classification, and only receives images.
     """
 
-    def __init__(self) -> None:
-        self.layers = nn.Sequential(
-            nn.Linear(28 * 28, 1024),
-            nn.Linear(1024, 10),
-            nn.Softmax(),
-        )
-
+    @abstractmethod
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.layers(x)
+        pass
+
+
+class MNISTTargetedMLP(TargetModel):
+    _model: AutoModel
+
+    def __init__(self):
+        super().__init__()
+        self._model = AutoModel.from_pretrained("dacorvo/mnist-mlp", trust_remote_code=True)
+
+    @override
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self._model(x)

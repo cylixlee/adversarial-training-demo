@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-import torch
-from torch import nn
 from typing import override
 
+import torch
 import torchattacks
+from torch import nn
 
 __all__ = ["AdversarialAttack", "FGSMAttack"]
 

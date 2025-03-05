@@ -1,10 +1,11 @@
 import pathlib
 from abc import ABC, abstractmethod
-from typing_extensions import override
 
+import torch
 from torch.utils.data.dataloader import DataLoader
-from torchvision.datasets import MNIST
 from torchvision import transforms
+from torchvision.datasets import MNIST
+from typing_extensions import override
 
 __all__ = [
     "DATA_ROOT",
@@ -47,9 +48,15 @@ class DatasetProvider(ABC):
 class MNISTDatasetProvider(DatasetProvider):
     """A dataset provider that provides MNIST datasets."""
 
-    transform = transforms.ToTensor()
+    transform = transforms.Compose(
+        [
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,)),
+            transforms.Lambda(lambda x: torch.flatten(x)),
+        ]
+    )
     """
-    After this transform, MNIST dataset contains tensors of shape ``[1, 28, 28]`` (C x H x W).
+    Before this transform, MNIST dataset contains images of shape ``[1, 28, 28]`` (C x H x W).
     """
 
     _train_set: DataLoader
@@ -58,8 +65,8 @@ class MNISTDatasetProvider(DatasetProvider):
     def __init__(self):
         train = MNIST(DATA_ROOT, train=True, download=True, transform=self.transform)
         test = MNIST(DATA_ROOT, train=False, download=True, transform=self.transform)
-        self._train_set = DataLoader(train, batch_size=32, shuffle=True)
-        self._test_set = DataLoader(test, batch_size=32, shuffle=True)
+        self._train_set = DataLoader(train, batch_size=8)
+        self._test_set = DataLoader(test, batch_size=8, shuffle=True)
 
     @property
     @override
