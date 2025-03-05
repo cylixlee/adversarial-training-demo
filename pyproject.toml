@@ -6,9 +6,9 @@ authors = [{ name = "Cylix Lee", email = "cylix.lee@outlook.com" }]
 dependencies = [
     "torch>=2.6.0",
     "torchvision>=0.21.0",
-    "torchattacks @ git+https://github.com/Harry24k/adversarial-attacks-pytorch.git",
     "tqdm>=4.67.1",
     "transformers>=4.49.0",
+    "torchattacks>=3.5.1",
 ]
 requires-python = "==3.13.*"
 readme = "README.md"
@@ -28,8 +28,7 @@ respect-source-order = true
 [[tool.pdm.source]]
 name = "PyTorch"
 url = "https://download.pytorch.org/whl/cpu"
-include_packages = ["torch*"]
-exclude_packages = ["*"]
+include_packages = ["torch", "torchvision"]
 
 [tool.ruff]
 line-length = 120
