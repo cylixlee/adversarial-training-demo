@@ -12,7 +12,7 @@ def main() -> None:
     model = MNISTMultiLayerPerceptron()
 
     evaluate_model(model, dataset_provider)
-    evaluate_model(model, dataset_provider, torchattacks.BIM(model, eps=64 / 256, steps=40))
+    evaluate_model(model, dataset_provider, torchattacks.CW(model))
 
 
 def evaluate_model(model: TargetModel, dataset_provider: DatasetProvider, attack: AdversarialAttack = None) -> None:
