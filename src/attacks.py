@@ -5,7 +5,7 @@ import torch
 import torchattacks
 from torch import nn
 
-__all__ = ["AdversarialAttack", "FGSMAttack"]
+__all__ = ["AdversarialAttack", "FGSMAttack", "PGDAttack"]
 
 
 class AdversarialAttack(ABC):
@@ -25,16 +25,26 @@ class AdversarialAttack(ABC):
         """Perform attack on ``x``."""
         pass
 
+    def __call__(self, x: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
+        return self.perform(x, labels)
+
 
 class FGSMAttack(AdversarialAttack):
-    """
-    Fast Gradient Sign Method.
-    """
-
     _attack: torchattacks.FGSM
 
     def __init__(self, model: nn.Module) -> None:
         self._attack = torchattacks.FGSM(model)
+
+    @override
+    def perform(self, x: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
+        return self._attack(x, labels)
+
+
+class PGDAttack(AdversarialAttack):
+    _attack: torchattacks.PGD
+
+    def __init__(self, model: nn.Module) -> None:
+        self._attack = torchattacks.PGD(model)
 
     @override
     def perform(self, x: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:

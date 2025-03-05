@@ -1,6 +1,6 @@
 import pathlib
 from abc import ABC, abstractmethod
-from typing import override
+from typing import Any, override
 
 import torch
 from torch import nn
@@ -23,16 +23,21 @@ class TargetModel(ABC, nn.Module):
         pass
 
 
+def _load_remote(name: str) -> Any:
+    try:
+        print(f"Trying local cache for '{name}'")
+        return AutoModel.from_pretrained(name, trust_remote_code=True, cache_dir=MODEL_HOME, local_files_only=True)
+    except OSError:
+        print(f"Local cache not found, fetching remote for '{name}'")
+        return AutoModel.from_pretrained(name, trust_remote_code=True, cache_dir=MODEL_HOME)
+
+
 class MNISTMultiLayerPerceptron(TargetModel):
     _model: AutoModel
 
     def __init__(self):
         super().__init__()
-        self._model = AutoModel.from_pretrained(
-            "dacorvo/mnist-mlp",
-            trust_remote_code=True,
-            cache_dir=MODEL_HOME,
-        )
+        self._model = _load_remote("dacorvo/mnist-mlp")
 
     @override
     def forward(self, x: torch.Tensor) -> torch.Tensor:
