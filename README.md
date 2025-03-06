@@ -9,9 +9,46 @@ Simple demo for learning adversarial training.
 > If you prefer `pip` as your package manager, please see the [Build with pip](#build-with-pip) section.
 
 - [Adversarial Training Demo](#adversarial-training-demo)
+  - [Project structure](#project-structure)
+  - [Principle](#principle)
   - [Build system](#build-system)
   - [Build with pip](#build-with-pip)
 
+## Project structure
+This project consists of several major parts:
+
+```mermaid
+graph LR
+
+D[[Datasets]]
+A[[Attacks]]
+M[[Models]]
+
+D --Image Tensors--> A
+A --Perturbed Tensors--> M
+```
+
+| Module   | Description                                                                   |
+| -------- | ----------------------------------------------------------------------------- |
+| Datasets | Objects that provide two `DataLoader`s for training and testing respectively. |
+| Attacks  | Make perturbations to tensors in order to make models misjudge.               |
+| Models   | Receives an image tensor and returns an one-hot tensor.                       |
+
+## Principle
+
+The adversarial training method was proposed in the paper [Towards Deep Learning Models Resistant to Adversarial Attacks
+](https://arxiv.org/abs/1706.06083). Formally, this method is a solution to the optimization problem below:
+
+$$
+\min_{\theta} \rho(\theta), \quad \text{where}\ \rho(\theta)=\mathbb E_{(x,y)\sim\mathcal D}\left[\max_{\delta\in\mathcal S}L(\theta,x+\delta,y)\right]
+$$
+
+Illustrated by another paper [Adversarial Training Methods for Deep Learning: A Systematic
+Review](https://www.mdpi.com/1999-4893/15/8/283), the routine of adversarial training method is:
+
+![adversarial-training](readme-assets/adversarial-training.png)
+
+which is quite simple in code.
 
 ## Build system
 This project adopts [PDM](https://pdm-project.org/) as build system. Modern build systems (like PDM) are preferred over vanilla `pip` tool, because PDM handles virtual environment & package management automatically and correctly.
