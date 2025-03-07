@@ -14,21 +14,14 @@ requires-python = "==3.13.*"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 
+[tool.uv.sources]
+torch = [{ index = "PyTorch-CPU" }]
+torchvision = [{ index = "PyTorch-CPU" }]
 
-[tool.pdm]
-distribution = false
-
-[tool.pdm.resolution]
-respect-source-order = true
-
-# By default, PyTorch CPU is installed.
-#
-# If you want to run this project with GPU (CUDA or ROCm), please change this source url according to the offcial
-# website https://pytorch.org/.
-[[tool.pdm.source]]
-name = "PyTorch"
+[[tool.uv.index]]
+name = "PyTorch-CPU"
 url = "https://download.pytorch.org/whl/cpu"
-include_packages = ["torch", "torchvision"]
+explicit = true
 
 [tool.ruff]
 line-length = 120
